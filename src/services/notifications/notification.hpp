@@ -108,7 +108,7 @@ class Notification
 	/// This image is often something like a profile picture in instant messaging applications.
 	Q_PROPERTY(QString image READ default NOTIFY imageChanged BINDABLE bindableImage);
 	/// If true, the notification has an inline reply action.
-	/// 
+	///
 	/// A quick reply text field should be displayed and the reply can be sent using @@sendInlineReply().
 	Q_PROPERTY(bool hasInlineReply READ default NOTIFY hasInlineReplyChanged BINDABLE bindableHasInlineReply);
 	/// The placeholder text/button caption for the inline reply.
@@ -116,6 +116,8 @@ class Notification
 	/// All hints sent by the client application as a javascript object.
 	/// Many common hints are exposed via other properties.
 	Q_PROPERTY(QVariantMap hints READ default NOTIFY hintsChanged BINDABLE bindableHints);
+
+	Q_PROPERTY(QString key READ default NOTIFY keyChanged BINDABLE bindableKey);
 	// clang-format on
 	QML_ELEMENT;
 	QML_UNCREATABLE("Notifications must be acquired from a NotificationServer");
@@ -172,6 +174,10 @@ public:
 	[[nodiscard]] QBindable<QString> bindableImage() const { return &this->bImage; }
 	[[nodiscard]] QBindable<bool> bindableHasInlineReply() const { return &this->bHasInlineReply; }
 
+	[[nodiscard]] QBindable<QString> bindableKey() const {
+		return &this->bKey;
+	}
+
 	[[nodiscard]] QBindable<QString> bindableInlineReplyPlaceholder() const {
 		return &this->bInlineReplyPlaceholder;
 	}
@@ -199,6 +205,7 @@ signals:
 	void residentChanged();
 	void transientChanged();
 	void desktopEntryChanged();
+	void keyChanged();
 	void imageChanged();
 	void hasInlineReplyChanged();
 	void inlineReplyPlaceholderChanged();
@@ -221,6 +228,7 @@ private:
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, bool, bResident, &Notification::residentChanged);
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, bool, bTransient, &Notification::transientChanged);
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, QString, bDesktopEntry, &Notification::desktopEntryChanged);
+	Q_OBJECT_BINDABLE_PROPERTY(Notification, QString, bKey, &Notification::keyChanged);
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, QString, bImage, &Notification::imageChanged);
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, bool, bHasInlineReply, &Notification::hasInlineReplyChanged);
 	Q_OBJECT_BINDABLE_PROPERTY(Notification, QString, bInlineReplyPlaceholder, &Notification::inlineReplyPlaceholderChanged);

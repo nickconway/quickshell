@@ -125,6 +125,12 @@ void Notification::updateProperties(
 	                   ? hints.value("urgency").value<NotificationUrgency::Enum>()
 	                   : NotificationUrgency::Normal;
 
+	this->bKey = hints.contains("x-canonical-private-synchronous")
+					   ? hints.value("x-canonical-private-synchronous").toString()
+					   : (hints.contains("synchronous")
+						   ? hints.value("synchronous").toString()
+						   : "");
+
 	if (appIcon.isEmpty() && !this->bDesktopEntry.value().isEmpty()) {
 		if (auto* entry = DesktopEntryManager::instance()->byId(this->bDesktopEntry.value())) {
 			appIcon = entry->bIcon.value();
